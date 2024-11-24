@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ingredientes para Pizzas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, select, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Ingredientes para Pizzas</h1>
+    <form id="pizzaForm">
+        <label for="sabor">Selecciona el sabor de la pizza:</label>
+        <select id="sabor" name="sabor">
+            <option value="vegetariana">Vegetariana</option>
+            <option value="margarita">Margarita</option>
+            <option value="hawaiana">Hawaiana</option>
+            <option value="jamonQueso">Jamón y Queso</option>
+            <option value="griega">Griega</option>
+            <option value="cuatroQuesos">4 Quesos</option>
+            <option value="quesoAzulManzana">Queso Azul y Manzana Verde</option>
+            <option value="quesoAzulBocadillo">Queso Azul y Bocadillo</option>
+            <option value="quesoParmesanoCiruelas">Queso Parmesano y Ciruelas Pasas</option>
+            <option value="quesoParmesanoPlatano">Queso Parmesano y Plátano Maduro</option>
+            <option value="prosciutoRugula">Prosciuto con Rúgula</option>
+            <option value="carnesMaduradas">Carnes Maduradas</option>
+            <option value="funghiFondue">Funghi Fondue</option>
+        </select>
+
+        <label for="cantidad">Número de pizzas:</label>
+        <input type="number" id="cantidad" name="cantidad" min="1" value="1">
+
+        <button type="button" onclick="calcularIngredientes()">Calcular Ingredientes</button>
+    </form>
+
+    <div class="result" id="resultado"></div>
+
+    <script>
+        function calcularIngredientes() {
+            const sabor = document.getElementById('sabor').value;
+            const cantidad = parseInt(document.getElementById('cantidad').value);
+            let resultado = '<h2>Ingredientes Necesarios</h2>';
+
+            // Ingredientes base
+            const ingredientesBase = [
+                { nombre: 'Masa', cantidad: 1, unidad: 'unidad', costo: 3050 },
+                { nombre: 'Salsa Pomodoro', cantidad: 60, unidad: 'gr', costo: 23 },
+                { nombre: 'Sémola de trigo', cantidad: 30, unidad: 'gr', costo: 21 },
+                { nombre: 'Queso mozarella', cantidad: 85, unidad: 'gr', costo: 19 }
+            ];
+
+            resultado += '<h3>Base</h3><ul>';
+            ingredientesBase.forEach(ingrediente => {
+                resultado += `<li>${ingrediente.nombre}: ${ingrediente.cantidad * cantidad} ${ingrediente.unidad}</li>`;
+            });
+            resultado += '</ul>';
+
+            // Ingredientes por sabor
+            const ingredientesPorSabor = {
+                vegetariana: [],
+                margarita: [
+                    { nombre: 'Tomate listo', cantidad: 60, unidad: 'gr', costo: 8 },
+                    { nombre: 'Albahaca', cantidad: 6, unidad: 'gr', costo: 62 },
+                    { nombre: 'Burrata C', cantidad: 40, unidad: 'gr', costo: 49 },
+                    { nombre: 'Parmesano en cuña', cantidad: 15, unidad: 'gr', costo: 86 },
+                    { nombre: 'Aceite de oliva', cantidad: 5, unidad: 'ml', costo: 80 }
+                ],
+                hawaiana: [
+                    { nombre: 'Jamón york', cantidad: 60, unidad: 'gr', costo: 89 },
+                    { nombre: 'Piña', cantidad: 120, unidad: 'gr', costo: 12 },
+                    { nombre: 'Queso mozarella', cantidad: 40, unidad: 'gr', costo: 19 }
+                ],
+                jamonQueso: [
+                    { nombre: 'Jamón york', cantidad: 60, unidad: 'gr', costo: 89 },
+                    { nombre: 'Parmesano en cuña', cantidad: 50, unidad: 'gr', costo: 86 }
+                ],
+                griega: [
+                    { nombre: 'Aceituna verde', cantidad: 28, unidad: 'gr', costo: 18 },
+                    { nombre: 'Aceituna negra', cantidad: 20, unidad: 'gr', costo: 49 },
+                    { nombre: 'Balsámico', cantidad: 10, unidad: 'ml', costo: 63 },
+                    { nombre: 'Tomate sin pérdida', cantidad: 80, unidad: 'gr', costo: 8 },
+                    { nombre: 'Queso feta', cantidad: 55, unidad: 'gr', costo: 62 },
+                    { nombre: 'Orégano fresco', cantidad: 5, unidad: 'gr', costo: 22 }
+                ],
+                cuatroQuesos: [
+                    { nombre: 'Parmesano en cuña', cantidad: 50, unidad: 'gr', costo: 86 },
+                    { nombre: 'Queso azul', cantidad: 30, unidad: 'gr', costo: 70 },
+                    { nombre: 'Queso feta', cantidad: 40, unidad: 'gr', costo: 62 }
+                ],
+                quesoAzulManzana: [
+                    { nombre: 'Manzana verde sin pérdida', cantidad: 55, unidad: 'gr', costo: 17 },
+                    { nombre: 'Queso azul', cantidad: 25, unidad: 'gr', costo: 70 },
+                    { nombre: 'Miel de abejas', cantidad: 10, unidad: 'ml', costo: 31 }
+                ],
+                quesoAzulBocadillo: [
+                    { nombre: 'Queso azul', cantidad: 50, unidad: 'gr', costo: 70 },
+                    { nombre: 'Bocadillo', cantidad: 70, unidad: 'gr', costo: 18 }
+                ],
+                quesoParmesanoCiruelas: [
+                    { nombre: 'Parmesano en cuña', cantidad: 50, unidad: 'gr', costo: 86 },
+                    { nombre: 'Queso mozarella', cantidad: 30, unidad: 'gr', costo: 19 },
+                    { nombre: 'Ciruela pasa sin semilla', cantidad: 60, unidad: 'gr', costo: 44 }
+                ],
+                quesoParmesanoPlatano: [
+                    { nombre: 'Parmesano en cuña', cantidad: 50, unidad: 'gr', costo: 86 },
+                    { nombre: 'Queso mozarella', cantidad: 30, unidad: 'gr', costo: 19 },
+                    { nombre: 'Plátano maduro sin pérdida', cantidad: 250, unidad: 'gr', costo: 3 }
+                ],
+                prosciutoRugula: [
+                    { nombre: 'Prosciuto', cantidad: 50, unidad: 'gr', costo: 100 },
+                    { nombre: 'Rugula', cantidad: 11, unidad: 'gr', costo: 28 },
+                    { nombre: 'Burrata Boconccini', cantidad: 60, unidad: 'gr', costo: 49 },
+                    { nombre: 'Balsámico', cantidad: 10, unidad: 'ml', costo: 63 }
+                ],
+                carnesMaduradas: [
+                    { nombre: 'Pepperoni', cantidad: 15, unidad: 'gr', costo: 75 },
+                    { nombre: 'Salami', cantidad: 20, unidad: 'gr', costo: 100 },
+                    { nombre: 'Chorizo vela', cantidad: 20, unidad: 'gr', costo: 100 }
+                ],
+                funghiFondue: [
+                    { nombre: 'Champiñones', cantidad: 55, unidad: 'gr', costo: 41 },
+                    { nombre: 'Portobello', cantidad: 40, unidad: 'gr', costo: 59 },
+                    { nombre: 'Queso Holandes bloque', cantidad: 60, unidad: 'gr', costo: 86 }
+                ]
+            };
+
+            const ingredientesSabor = ingredientesPorSabor[sabor] || [];
+            resultado += `<h3>${sabor.charAt(0).toUpperCase() + sabor.slice(1)}</h3><ul>`;
+            ingredientesSabor.forEach(ingrediente => {
+                resultado += `<li>${ingrediente.nombre}: ${ingrediente.cantidad * cantidad} ${ingrediente.unidad}</li>`;
+            });
+            resultado += '</ul>';
+
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+    </script>
+</body>
+</html>
